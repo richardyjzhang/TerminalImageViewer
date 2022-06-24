@@ -577,12 +577,12 @@ int main(int argc, char* argv[]) {
     } else if (arg[0] == '-') {
       std::cerr << "Unrecognized argument: " << arg << std::endl;
     } else {
-      if (std::filesystem::is_directory(arg)) {
-         for (auto & p : std::filesystem::directory_iterator(arg)) {
-           if (std::filesystem::is_regular_file(p.path())) {
-             file_names.push_back(p.path().string());
-           }
-         }
+      if (fan::is_directory(arg)) {
+        for (const auto &p : fan::directory_filenames(arg)) {
+          if (fan::is_regular_file(p)) {
+            file_names.push_back(p);
+          }
+        }
       } else {
         std::ifstream fin(arg.c_str());
         if (fin) {
